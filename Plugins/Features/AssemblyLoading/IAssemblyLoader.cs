@@ -18,6 +18,14 @@ public interface IAssemblyLoader
     /// Loads all assemblies found in the specified directory path.
     /// </summary>
     /// <param name="path">The directory path to search for assemblies.</param>
+    /// <param name="dllFilter">Optional filter for DLL file names.</param>
     /// <returns>An enumerable of loaded <see cref="Assembly"/> instances.</returns>
-    IEnumerable<Assembly> LoadAssemblies(string path);
+    IEnumerable<Assembly> LoadAssemblies(string path, Func<string, bool>? dllFilter = null);
+
+    /// <summary>
+    /// Loads a single assembly from the specified DLL file path.
+    /// </summary>
+    /// <param name="dllPath">The file path of the DLL to load.</param>
+    /// <returns>The loaded <see cref="Assembly"/> or null if loading failed.</returns>
+    Assembly? LoadAssembly(string dllPath);
 }
