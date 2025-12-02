@@ -7,14 +7,14 @@
 /// <remarks>
 /// <list type="bullet">
 /// <item>Provides a unique <see cref="Name"/> for identification.</item>
-/// <item>Exposes plugin metadata such as version and author through <see cref="IComponentPluginMetadata"/>.</item>
+/// <item>Exposes plugin metadata such as version and author through <see cref="IComponentMetadata"/>.</item>
 /// <item>Supports creating instances of the component via <see cref="Create"/>.</item>
 /// <item>Allows optional initialization logic through <see cref="Initialize"/>.</item>
 /// <item>Can be used in a generic or non-generic context via bridges like <see cref="IComponentBridge"/>.</item>
 /// </list>
 /// </remarks>
 /// <typeparam name="T">The type of component created by the plugin.</typeparam>
-public interface IComponentPlugin<out T> : IComponentPluginMetadata
+public interface IComponent<out T> : IComponentMetadata
 {
     /// <summary>
     /// Gets the unique name of the plugin.

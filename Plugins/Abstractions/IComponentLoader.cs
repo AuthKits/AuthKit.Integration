@@ -8,7 +8,7 @@ namespace Plugins.Abstractions;
 /// <remarks>
 /// <list type="bullet">
 /// <item>Supports loading plugins of a specific component type <typeparamref name="T"/>.</item>
-/// <item>Returns strongly typed instances of <see cref="IComponentPlugin{T}"/>.</item>
+/// <item>Returns strongly typed instances of <see cref="IComponent{T}"/>.</item>
 /// <item>Enables dynamic discovery of plugins from external paths or directories.</item>
 /// </list>
 /// </remarks>
@@ -19,7 +19,7 @@ public interface IComponentLoader
     /// </summary>
     /// <param name="path">The filesystem path or directory where plugins are located.</param>
     /// <returns>
-    /// A collection of loaded plugins implementing <see cref="IComponentPlugin{T}"/>.
+    /// A collection of loaded plugins implementing <see cref="IComponent{T}"/>.
     /// </returns>
-    IEnumerable<IComponentPlugin<T>> LoadComponents<T>(string path);
+    IEnumerable<IComponent<T>> LoadComponents<T>(string path);
 }

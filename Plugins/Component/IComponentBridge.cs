@@ -22,7 +22,7 @@ public interface IComponentBridge
     /// <summary>
     /// Gets metadata associated with the plugin, such as version and author.
     /// </summary>
-    IComponentPluginMetadata Metadata { get; }
+    IComponentMetadata Metadata { get; }
 
     /// <summary>
     /// Creates an instance of the component managed by the plugin.

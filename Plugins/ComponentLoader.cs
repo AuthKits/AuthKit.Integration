@@ -8,23 +8,41 @@ namespace Plugins;
 public class ComponentLoader(IAssemblyLoader assemblyLoader) : IComponentLoader
 {
     /// <inheritdoc />
-    public IEnumerable<IComponentPlugin<T>> LoadComponents<T>(string path)
+    public IEnumerable<IComponent<T>> LoadComponents<T>(string path)
     {
-        var plugins = new List<IComponentPlugin<T>>();
+        if (!Directory.Exists(path))
+            throw new DirectoryNotFoundException($"Component directory not found: {path}");
+
+        var components = new List<IComponent<T>>();
 
         foreach (var asm in assemblyLoader.LoadAssemblies(path))
         {
             foreach (var type in asm.GetTypes())
             {
-                if (typeof(IComponentPlugin<T>).IsAssignableFrom(type) &&
-                    type is { IsAbstract: false, IsInterface: false })
+                if (!typeof(IComponent<T>).IsAssignableFrom(type) ||
+                    type.IsAbstract || type.IsInterface) 
+                    continue;
+
+                IComponent<T>? instance;
+
+                try
                 {
-                    var instance = (IComponentPlugin<T>)Activator.CreateInstance(type)!;
-                    plugins.Add(instance);
+                    instance = (IComponent<T>?)Activator.CreateInstance(type);
                 }
+                catch (Exception ex)
+                {
+                    throw new InvalidOperationException(
+                        $"Failed to create instance of component {type.FullName} in assembly {asm.FullName}", ex);
+                }
+
+                if (instance == null)
+                    throw new InvalidOperationException(
+                        $"Component {type.FullName} in assembly {asm.FullName} could not be instantiated.");
+
+                components.Add(instance);
             }
         }
 
-        return plugins;
+        return components;
     }
 }
